@@ -21,8 +21,8 @@ export default {
                 .validate('headers.authorization', _.isString)
 
             // 如果环境变量没有token则读取请求中的
-            if (DEEP_SEEK_CHAT_AUTHORIZATION) {
-                request.headers.authorization = "Bearer " + DEEP_SEEK_CHAT_AUTHORIZATION;
+            if (CHAT_AUTHORIZATION) {
+                request.headers.authorization = "Bearer " + CHAT_AUTHORIZATION;
             }
             // token切分
             const tokens = chat.tokenSplit(request.headers.authorization);
