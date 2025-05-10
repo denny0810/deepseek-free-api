@@ -19,7 +19,6 @@ export default {
                 .validate('body.conversation_id', v => _.isUndefined(v) || _.isString(v))
                 .validate('body.messages', _.isArray)
                 .validate('headers.authorization', _.isString)
-)
             // Use client-provided token if available; otherwise, use environment variable
             if (!(request.headers.authorization)) {
                 request.headers.authorization = "Bearer " + CHAT_AUTHORIZATION;
