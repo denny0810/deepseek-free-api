@@ -20,17 +20,11 @@ export default {
                 .validate('body.messages', _.isArray)
                 .validate('headers.authorization', v => _.isUndefined(v) || (_.isString(v) && /^Bearer\s+\S+/i.test(v))
 )
-
             // Use client-provided token if available; otherwise, use environment variable
-            const authHeader = request.headers.authorization ||
-                  (CHAT_AUTHORIZATION && CHAT_AUTHORIZATION.trim() !== '' 
-                    ? `Bearer ${CHAT_AUTHORIZATION}` 
-                    : null);
-            
+            let authHeader = request.headers.authorization;
             if (!authHeader) {
-                throw new Error('Authorization header or environment variable must be provided');
+                authHeader = "Bearer " + CHAT_AUTHORIZATION;
             }
-            
             // token切分
             let tokens;
             try {
