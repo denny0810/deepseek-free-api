@@ -43,6 +43,7 @@ export default {
             const token = _.sample(tokens);
 
             console.log('[DEBUG] CHAT_AUTHORIZATION:', CHAT_AUTHORIZATION);
+            console.log('[DEBUG] Using authHeader:', authHeader);
             console.log('[DEBUG] Tokens:', tokens);
             console.log('[DEBUG] Token:', token);
             
