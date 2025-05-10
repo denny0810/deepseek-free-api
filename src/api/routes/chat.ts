@@ -18,9 +18,14 @@ export default {
             request
                 .validate('body.conversation_id', v => _.isUndefined(v) || _.isString(v))
                 .validate('body.messages', _.isArray)
-                .validate('headers.authorization', _.isString)
+                .validate('headers.authorization', v => _.isUndefined(v) || _.isString(v))
             // Use client-provided token if available; otherwise, use environment variable
-            if (!(request.headers.authorization)) {
+            if (
+                !request.headers || // Handle missing headers object
+                request.headers.authorization === undefined ||
+                request.headers.authorization === null ||
+                (typeof request.headers.authorization === "string" && request.headers.authorization.trim() === "")
+            ) {
                 request.headers.authorization = "Bearer " + CHAT_AUTHORIZATION;
             }
             // token切分
