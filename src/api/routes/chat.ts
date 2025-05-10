@@ -15,11 +15,13 @@ export default {
     post: {
 
         '/completions': async (request: Request) => {
+            console.log('[DEBUG] All headers:', request.headers);
+            console.log('[DEBUG] Raw authorization:', request.headers.authorization);
             request
                 .validate('body.conversation_id', v => _.isUndefined(v) || _.isString(v))
                 .validate('body.messages', _.isArray)
                 .validate('headers.authorization', v => _.isUndefined(v) || _.isString(v))
-            console.log('[DEBUG] request.headers.authHeader:', request.headers.authorization);
+            console.log('[DEBUG] validated authorization:', request.headers.authorization);
             // Use client-provided token if available; otherwise, use environment variable
             if (
                 !request.headers || // Handle missing headers object
