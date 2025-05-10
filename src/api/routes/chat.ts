@@ -18,7 +18,7 @@ export default {
             request
                 .validate('body.conversation_id', v => _.isUndefined(v) || _.isString(v))
                 .validate('body.messages', _.isArray)
-                .validate('headers.authorization', v => _.isUndefined(v) || (_.isString(v) && /^Bearer\s+\S+/i.test(v))
+                .validate('headers.authorization', _.isString)
 )
             // Use client-provided token if available; otherwise, use environment variable
             if (!(request.headers.authorization)) {
@@ -30,7 +30,7 @@ export default {
             const token = _.sample(tokens);
 
             console.log('[DEBUG] CHAT_AUTHORIZATION:', CHAT_AUTHORIZATION);
-            console.log('[DEBUG] Using authHeader:', authHeader);
+            console.log('[DEBUG] Using authHeader:', request.headers.authorization);
             console.log('[DEBUG] Tokens:', tokens);
             console.log('[DEBUG] Token:', token);
             
