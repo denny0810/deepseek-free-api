@@ -19,6 +19,7 @@ export default {
                 .validate('body.conversation_id', v => _.isUndefined(v) || _.isString(v))
                 .validate('body.messages', _.isArray)
                 .validate('headers.authorization', v => _.isUndefined(v) || _.isString(v))
+            console.log('[DEBUG] request.headers.authHeader:', request.headers.authorization);
             // Use client-provided token if available; otherwise, use environment variable
             if (
                 !request.headers || // Handle missing headers object
