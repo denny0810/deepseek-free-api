@@ -21,18 +21,11 @@ export default {
                 .validate('headers.authorization', v => _.isUndefined(v) || (_.isString(v) && /^Bearer\s+\S+/i.test(v))
 )
             // Use client-provided token if available; otherwise, use environment variable
-            let authHeader = request.headers.authorization;
-            if (!authHeader) {
-                authHeader = "Bearer " + CHAT_AUTHORIZATION;
+            if (!(request.headers.authorization)) {
+                request.headers.authorization = "Bearer " + CHAT_AUTHORIZATION;
             }
             // token切分
-            let tokens;
-            try {
-                    tokens = chat.tokenSplit(authHeader);
-            } catch (error) {
-                throw new Error(`Failed to split authorization token: ${error.message}`);
-            }
-
+            const tokens = chat.tokenSplit(request.headers.authorization);
             // 随机挑选一个token
             const token = _.sample(tokens);
 
