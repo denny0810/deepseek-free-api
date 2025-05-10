@@ -18,14 +18,18 @@ export default {
             request
                 .validate('body.conversation_id', v => _.isUndefined(v) || _.isString(v))
                 .validate('body.messages', _.isArray)
-                .validate('headers.authorization', _.isString)
+                .validate('headers.authorization', v => _.isUndefined(v) || _.isString(v))
 
-            // 如果环境变量没有token则读取请求中的
-            if (CHAT_AUTHORIZATION) {
-                request.headers.authorization = "Bearer " + CHAT_AUTHORIZATION;
+            // Use client-provided token if available; otherwise, use environment variable
+            const authHeader = request.headers.authorization || 
+                             (CHAT_AUTHORIZATION ? `Bearer ${CHAT_AUTHORIZATION}` : null);
+            
+            if (!authHeader) {
+                throw new Error('Authorization header or environment variable must be provided');
             }
+            
             // token切分
-            const tokens = chat.tokenSplit(request.headers.authorization);
+            const tokens = chat.tokenSplit(authHeader);
             // 随机挑选一个token
             const token = _.sample(tokens);
             let { model, conversation_id: convId, messages, stream } = request.body;
