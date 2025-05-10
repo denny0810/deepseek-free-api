@@ -22,7 +22,7 @@ export default {
                 .validate('body.messages', _.isArray)
                 .validate('headers.authorization', v => _.isUndefined(v) || _.isString(v))
             // Use environment token if available; otherwise, use client variable
-            if (CHAT_AUTHORIZATION）{
+            if (CHAT_AUTHORIZATION) {
                 request.headers.authorization = "Bearer " + CHAT_AUTHORIZATION;
             }
             // token切分
